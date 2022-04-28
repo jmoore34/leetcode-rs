@@ -7,14 +7,14 @@ pub fn length_of_longest_substring(s: String) -> i32 {
 
     let mut max_len = 0;
 
-    let mut used_chars = std::collections::HashSet::<char>::new();
+    let mut used_chars = [false; 128];
 
     (0..s.len()).for_each(|left| {
-        while right < s.len() && !used_chars.contains(&s[right]) {
-            used_chars.insert(s[right]);
+        while right < s.len() && !used_chars[s[right] as usize] {
+            used_chars[s[right] as usize] = true;
             right += 1;
         }
-        used_chars.remove(&s[left]);
+        used_chars[s[left] as usize] = false;
         max_len = (right - left).max(max_len);
     });
 
